@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let jpegHTML = `
             <div style="text-align: center;">
-                <img src="api/static/Seplit Bills.png" alt="Logo Seplit Bills" style="max-width: 200px; height: auto;">
+                <img src="https://github.com/Zakikeyy/Seplitbills/blob/4f70424c86ddc8aa05cced3fa08e6a74ad3ee422/api/static/Seplit%20Bills.png" alt="Logo Seplit Bills" style="max-width: 200px; height: auto;">
                 <p style="font-size: 18px; color: #666; margin-top: 5px;">Split. Settle. Smile.</p>
                 <h2 style="font-size: 22px; font-weight: 600; margin-top: 30px; margin-bottom: 5px;">Tagihan Bersama</h2>
                 <p style="font-size: 14px; color: #888; margin-top: 0;">${formattedDate}</p>
