@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagi Tagihan - Seplit Bills</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body data-peserta='{{ peserta|tojson|safe }}'>
+
+    <header class="app-header">
+        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <p class="tagline">Split. Settle. Smile.</p>
+    </header>
+
+    <main class="container">
+        <h1>Laman Pembagian</h1>
+        <div class="form-section">
+            <h2>Pilih Penanggung Jawab Setiap Item</h2>
+            <div id="assignment-container">
+                {% for item in items %}
+                <div class="assignment-row" data-price="{{ item.harga }}">
+                    <span class="item-label">{{ item.nama }} - Rp {{ "{:,.0f}".format(item.harga) }}</span>
+                    <select class="assign-select">
+                        <option value="bersama">Bayar Bersama</option>
+                        {% for p in peserta %}
+                        <option value="{{ p }}">{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-section">
+             <button id="calculateBtn" class="btn btn-submit">Hitung</button>
+        </div>
+        <div id="result-container" class="form-section" style="display:none;">
+            <h2>Hasil Perhitungan</h2>
+            <div id="result-details"></div>
+            <button type="button" id="shareBtn" class="btn btn-share">Bagikan</button>
+        </div>
+    </main>
+    
+    <footer class="app-footer">
+        <a href="https://www.instagram.com/zaki.key" target="_blank" class="instagram-link">
+            <svg class="instagram-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <p>Made by Zakikey</p>
+        <p>© 2025. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/static/hasil.js"></script>
+</body>
+</html>
