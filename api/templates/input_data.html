@@ -7,16 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
-    <meta charset="UTF-8">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <header class="app-header">
-        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <img src="../static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
         <p class="tagline">Split. Settle. Smile.</p>
     </header>
 
@@ -56,34 +51,23 @@
     </footer>
 
     <script>
-        // --- KODE JAVASCRIPT DIPERBARUI ---
         const itemsContainer = document.getElementById('items-container');
         const participantsList = document.getElementById('participants-list');
         const hiddenParticipantsContainer = document.getElementById('hidden-participants');
         
-        // --- LOGIKA UNTUK ITEM ---
         document.getElementById('addItemBtn').addEventListener('click', () => {
             const newRow = document.createElement('div');
             newRow.className = 'item-row';
-            // Tambahkan tombol hapus saat membuat baris baru
-            newRow.innerHTML = `
-                <input type="text" name="nama_item" class="input-field item-name" placeholder="Nama Item" required>
-                <input type="number" name="harga_item" class="input-field item-price" placeholder="Harga" required>
-                <button type="button" class="btn-delete item-delete-btn">×</button>
-            `;
+            newRow.innerHTML = `<input type="text" name="nama_item" class="input-field item-name" placeholder="Nama Item" required><input type="number" name="harga_item" class="input-field item-price" placeholder="Harga" required><button type="button" class="btn-delete item-delete-btn">×</button>`;
             itemsContainer.appendChild(newRow);
         });
 
-        // Event listener untuk menghapus baris item
         itemsContainer.addEventListener('click', function(e) {
-            // Cek apakah yang diklik adalah tombol hapus item
             if (e.target && e.target.classList.contains('item-delete-btn')) {
-                // Hapus elemen .item-row yang merupakan induk dari tombol
                 e.target.parentElement.remove();
             }
         });
 
-        // --- LOGIKA UNTUK PESERTA ---
         const participants = new Set();
         document.getElementById('addParticipantBtn').addEventListener('click', () => {
             const participantNameInput = document.getElementById('participantNameInput');
@@ -92,14 +76,12 @@
             if (name && !participants.has(name)) {
                 participants.add(name);
                 
-                // Buat tag yang bisa dihapus
                 const tag = document.createElement('span');
                 tag.className = 'tag';
-                tag.dataset.name = name; // Simpan nama di data-attribute
+                tag.dataset.name = name;
                 tag.innerHTML = `${name} <span class="tag-delete-btn" data-name="${name}">×</span>`;
                 participantsList.appendChild(tag);
                 
-                // Simpan di input tersembunyi
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
                 hiddenInput.name = 'peserta';
@@ -110,21 +92,14 @@
             }
         });
 
-        // Event listener untuk menghapus tag peserta
         participantsList.addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('tag-delete-btn')) {
                 const nameToRemove = e.target.dataset.name;
-
-                // 1. Hapus dari Set
                 participants.delete(nameToRemove);
-
-                // 2. Hapus input tersembunyi yang sesuai
                 const hiddenInputToRemove = hiddenParticipantsContainer.querySelector(`input[value="${nameToRemove}"]`);
                 if (hiddenInputToRemove) {
                     hiddenInputToRemove.remove();
                 }
-
-                // 3. Hapus elemen tag dari tampilan
                 e.target.parentElement.remove();
             }
         });

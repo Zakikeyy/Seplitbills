@@ -1,4 +1,4 @@
-// static/hasil.js
+// api/static/hasil.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.querySelector('body');
@@ -69,10 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const filenameDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
 
-        // PERUBAHAN DI SINI: MENGGUNAKAN TAG <img> UNTUK LOGO
         let jpegHTML = `
             <div style="text-align: center;">
-                <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" style="max-width: 200px; height: auto; margin-bottom: 10px;">
+                <img src="../static/Seplit Bills.png" alt="Logo Seplit Bills" style="max-width: 200px; height: auto;">
                 <p style="font-size: 18px; color: #666; margin-top: 5px;">Split. Settle. Smile.</p>
                 <h2 style="font-size: 22px; font-weight: 600; margin-top: 30px; margin-bottom: 5px;">Tagihan Bersama</h2>
                 <p style="font-size: 14px; color: #888; margin-top: 0;">${formattedDate}</p>

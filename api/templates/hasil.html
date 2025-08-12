@@ -7,18 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <meta charset="UTF-8">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
 </head>
 <body data-peserta='{{ peserta|tojson|safe }}'>
 
     <header class="app-header">
-        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <img src="../static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
         <p class="tagline">Split. Settle. Smile.</p>
     </header>
 
@@ -46,7 +41,7 @@
         <div id="result-container" class="form-section" style="display:none;">
             <h2>Hasil Perhitungan</h2>
             <div id="result-details"></div>
-            <button type="button" id="shareBtn" class="btn btn-share">Bagikan</button>
+            <button type="button" id="shareBtn" class="btn btn-share">Bagikan sebagai JPEG</button>
         </div>
     </main>
     
@@ -58,6 +53,6 @@
         <p>© 2025. All Rights Reserved.</p>
     </footer>
 
-    <script src="/static/hasil.js"></script>
+    <script src="../static/hasil.js"></script>
 </body>
 </html>
