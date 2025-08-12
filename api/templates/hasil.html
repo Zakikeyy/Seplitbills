@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bagi Tagihan - Seplit Bills</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-16x16.png">
+    <link rel="manifest" href="static/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/refs/heads/main/api/static/favicon.ico">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="static/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body data-peserta='{{ peserta|tojson|safe }}'>
@@ -23,7 +30,7 @@
             <h2>Pilih Penanggung Jawab Setiap Item</h2>
             <div id="assignment-container">
                 {% for item in items %}
-                <div class="assignment-row" data-price="{{ item.harga }}">
+                <div class="assignment-row" data-price="{{ item.harga }}" data-name="{{ item.nama }}">
                     <span class="item-label">{{ item.nama }} - Rp {{ "{:,.0f}".format(item.harga) }}</span>
                     <select class="assign-select">
                         <option value="bersama">Bayar Bersama</option>
@@ -35,12 +42,22 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="form-section tax-option">
+            <label for="tax-checkbox">
+                <input type="checkbox" id="tax-checkbox">
+                Tambahkan PPN (11%)
+            </label>
+        </div>
+
         <div class="form-section">
              <button id="calculateBtn" class="btn btn-submit">Hitung</button>
         </div>
+       
         <div id="result-container" class="form-section" style="display:none;">
             <h2>Hasil Perhitungan</h2>
-            <div id="result-details"></div>
+            <div id="result-details">
+                </div>
             <button type="button" id="shareBtn" class="btn btn-share">Bagikan</button>
         </div>
     </main>
@@ -53,6 +70,6 @@
         <p>© 2025. All Rights Reserved.</p>
     </footer>
 
-    <script src="../static/hasil.js"></script>
+    <script src="static/hasil.js"></script>
 </body>
 </html>
