@@ -178,9 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- LOGIKA BAGIKAN SEBAGAI PDF ---
     shareBtn.addEventListener('click', () => {
-        // PERBAIKAN DI SINI: Pastikan data sudah ada sebelum membuat PDF
-        if (!finalBillData || Object.keys(finalBillData).length === 0 || !finalBillData.billPerPerson) {
-            alert("Silakan klik 'Hitung' terlebih dahulu sebelum membagikan.");
+        if (!finalBillData || !finalBillData.billPerPerson) {
+            alert("Silakan klik 'Hitung' terlebih dahulu.");
             return;
         }
 
