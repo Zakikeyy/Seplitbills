@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Tagihan - Seplit Bills</title>
     
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-    <link rel="manifest" href="/static/site.webmanifest">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header class="app-header">
-        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <img src="{{ url_for('static', filename='Seplit Bills.png') }}" alt="Logo Seplit Bills" class="app-logo">
         <p class="tagline">Split. Settle. Smile.</p>
     </header>
 
@@ -146,7 +146,7 @@
         <p>© 2025. All Rights Reserved.</p>
     </footer>
 
-    <script src="/static/input.js"></script>
+    <script src="{{ url_for('static', filename='input.js') }}"></script>
     <script>
         const whatsNewModal = document.getElementById('whats-new-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
