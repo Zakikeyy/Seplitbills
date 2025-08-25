@@ -1,14 +1,9 @@
 # api/index.py
-import os
+
 from flask import Flask, render_template, request
 
-# Tentukan path absolut ke direktori proyek
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-template_folder = os.path.join(project_root, 'templates')
-static_folder = os.path.join(project_root, 'static')
-
-app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
-
+# Inisialisasi Flask kembali ke bentuk sederhana
+app = Flask(__name__)
 
 @app.route('/')
 def halaman_input():
@@ -18,14 +13,16 @@ def halaman_input():
 def proses_data():
     nama_items = request.form.getlist('nama_item')
     harga_items = request.form.getlist('harga_item')
+    kuantitas_items = request.form.getlist('kuantitas_item')
     peserta = request.form.getlist('peserta')
 
     items = []
     for i in range(len(nama_items)):
-        if nama_items[i] and harga_items[i]:
+        if nama_items[i] and harga_items[i] and kuantitas_items[i]:
             items.append({
                 'nama': nama_items[i],
-                'harga': int(harga_items[i])
+                'harga_satuan': int(harga_items[i]),
+                'kuantitas': int(kuantitas_items[i])
             })
-
+            
     return render_template('hasil.html', items=items, peserta=peserta)
