@@ -178,6 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- LOGIKA BAGIKAN SEBAGAI PDF ---
     shareBtn.addEventListener('click', () => {
+        // PERBAIKAN DI SINI: Pastikan data sudah ada sebelum membuat PDF
+        if (!finalBillData || Object.keys(finalBillData).length === 0 || !finalBillData.billPerPerson) {
+            alert("Silakan klik 'Hitung' terlebih dahulu sebelum membagikan.");
+            return;
+        }
+
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'pt', 'a4');
         const margin = 40;
@@ -193,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(logoImg, 0, 0);
         const logoDataUrl = canvas.toDataURL('image/png');
 
-        // --- HEADER PDF ---
         pdf.addImage(logoDataUrl, 'PNG', (pageWidth / 2) - 75, margin, 150, 0);
         yPosition = margin + 90;
 
@@ -203,14 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
         pdf.text('Split. Settle. Smile.', pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 40;
         
-        // --- BLOK INFORMASI ---
         const now = new Date();
         const formattedDate = `${now.getDate()} ${now.toLocaleString('id-ID', { month: 'long' })} ${now.getFullYear()}`;
         const filenameDate = formattedDate;
 
         pdf.setFontSize(10);
         pdf.setTextColor(102, 102, 102);
-
         pdf.text(`Tanggal: ${formattedDate}`, margin, yPosition);
         yPosition += 15;
         if (finalBillData.lokasi) {
@@ -226,8 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pdf.line(margin, yPosition, pageWidth - margin, yPosition);
         yPosition += 25;
         
-        // --- DETAIL PERHITUNGAN ---
-        pdf.setTextColor(0, 0, 0); // Atur warna teks utama menjadi hitam
+        pdf.setTextColor(0, 0, 0);
         for (const person of ALL_PARTICIPANTS) {
             const data = finalBillData.billPerPerson?.[person];
             if (!data) continue;
@@ -240,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(9);
-            pdf.setTextColor(100, 100, 100); // Warna abu-abu untuk detail
+            pdf.setTextColor(100, 100, 100);
 
             let detailsText = [];
             if (data.personalItems.length > 0) {
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const detailLines = pdf.splitTextToSize(`(${detailsText.join(' + ')})`, pageWidth - (margin * 2) - 10);
             pdf.text(detailLines, margin + 5, yPosition);
-            pdf.setTextColor(0, 0, 0); // Kembalikan ke hitam setelah detail
+            pdf.setTextColor(0, 0, 0);
             yPosition += (detailLines.length * 12) + 10;
         }
         
@@ -264,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pdf.line(margin, yPosition, pageWidth - margin, yPosition);
         yPosition += 25;
 
-        // --- TOTAL KESELURUHAN ---
         const grandTotal = Object.values(finalBillData.billPerPerson || {}).reduce((sum, data) => sum + Math.ceil(data.finalTotal), 0);
         pdf.setFontSize(16);
         pdf.setFont('helvetica', 'bold');
@@ -272,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pdf.text(`Rp ${grandTotal.toLocaleString('id-ID')}`, pageWidth - margin, yPosition, { align: 'right' });
         yPosition += 25;
 
-        // --- RINCIAN ITEM BERSAMA ---
         if (finalBillData.sharedItems && finalBillData.sharedItems.length > 0) {
             pdf.setFont('helvetica', 'italic');
             pdf.setFontSize(9);
@@ -283,14 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
             pdf.text(sharedBreakdownLines, pageWidth / 2, yPosition, { align: 'center' });
         }
 
-        // --- FOOTER PDF ---
         const footerY = pageHeight - 40;
         pdf.setFontSize(9);
         pdf.setTextColor(150, 150, 150);
         pdf.text('Made by Zakikey', pageWidth / 2, footerY, { align: 'center' });
         pdf.text('© 2025. All Rights Reserved.', pageWidth / 2, footerY + 12, { align: 'center' });
 
-        // --- DOWNLOAD PDF ---
         pdf.save(`Seplit Bills ${filenameDate}.pdf`);
     });
 });
