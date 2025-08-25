@@ -1,4 +1,4 @@
-/* static/style.css */
+/* api/static/style.css */
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -14,21 +14,9 @@ body {
     box-sizing: border-box;
 }
 
-.app-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.app-logo {
-    max-width: 250px;
-    height: auto;
-}
-
-.tagline {
-    font-size: 18px;
-    color: #666;
-    margin-top: -5px;
-}
+.app-header { text-align: center; margin-bottom: 20px; }
+.app-logo { max-width: 250px; height: auto; }
+.tagline { font-size: 18px; color: #666; margin-top: -5px; }
 
 .container {
     background-color: white;
@@ -45,8 +33,8 @@ h2 { font-size: 18px; font-weight: 500; margin-bottom: 15px; border-bottom: 1px 
 .input-field { width: 100%; padding: 12px 15px; border: 1px solid #dcdcdc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
 .input-field:focus { outline: none; border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); }
 .item-row, .participant-input-group { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-.item-name { flex: 3; }
-.item-price { flex: 2; }
+.item-name { flex-grow: 1; }
+.item-price { width: 120px; flex-shrink: 0; }
 .participant-input-group .input-field { flex-grow: 1; }
 .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
 .btn-add { background-color: #333; color: white; flex-shrink: 0; }
@@ -59,8 +47,9 @@ h2 { font-size: 18px; font-weight: 500; margin-bottom: 15px; border-bottom: 1px 
 .tag { background-color: #4a90e2; color: white; padding: 5px 12px; border-radius: 15px; font-size: 14px; display: inline-flex; align-items: center; }
 .assignment-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 5px; border-bottom: 1px solid #f0f0f0; }
 .item-label { font-size: 16px; font-weight: 500; flex-grow: 1; }
-.assign-select { font-family: 'Poppins', sans-serif; padding: 8px 12px; border: 1px solid #dcdcdc; border-radius: 8px; font-size: 15px; background-color: #f9f9f9; flex-shrink: 0; min-width: 150px; }
-.assign-select:focus { outline: none; border-color: #4a90e2; }
+.assignment-control { font-family: 'Poppins', sans-serif; padding: 8px 12px; border: 1px solid #dcdcdc; border-radius: 8px; font-size: 15px; background-color: #f9f9f9; flex-shrink: 0; min-width: 150px; width: 150px; box-sizing: border-box; text-align: left; cursor: pointer; transition: background-color 0.2s; color: #333; }
+.assignment-control:hover { background-color: #e9e9e9; }
+.assign-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2C17.6%2C0%2C0%2C0%2C0%2C82.2c0%2C5%2C1.8%2C9.3%2C5.4%2C12.9l128%2C127.9c3.6%2C3.6%2C7.8%2C5.4%2C12.8%2C5.4s9.2-1.8%2C12.8-5.4L287%2C95c3.5-3.5%2C5.4-7.8%2C5.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px top 50%; background-size: .65em auto; }
 #result-container { background-color: #f9f9f9; border-radius: 8px; padding: 20px; }
 #result-container h2 { border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
 #result-details p { font-size: 18px; display: flex; justify-content: space-between; margin: 12px 0; }
@@ -75,48 +64,26 @@ h2 { font-size: 18px; font-weight: 500; margin-bottom: 15px; border-bottom: 1px 
 .btn-delete { background-color: #ff4d4d; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; line-height: 30px; text-align: center; cursor: pointer; flex-shrink: 0; align-self: center; transition: background-color 0.2s; }
 .btn-delete:hover { background-color: #cc0000; }
 .tag-delete-btn { margin-left: 8px; font-weight: bold; cursor: pointer; }
-
-/* Gaya untuk Opsi PPN */
-.tax-option {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-top: -15px;
-}
-.tax-option label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-}
-.tax-option input[type="checkbox"] {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-/* Gaya untuk Rincian Hasil */
-.person-result {
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-.result-breakdown {
-    font-size: 13px;
-    color: #666;
-    margin-top: 5px;
-}
-.result-breakdown span {
-    display: block;
-}
-.shared-breakdown {
-    font-size: 12px;
-    color: #888;
-    text-align: center;
-    margin-top: 10px;
-}
+.tax-option { display: flex; align-items: center; justify-content: center; padding: 10px; background-color: #f9f9f9; border-radius: 8px; margin-top: -15px; }
+.tax-option label { display: flex; align-items: center; cursor: pointer; font-size: 16px; font-weight: 500; }
+.tax-option input[type="checkbox"] { margin-right: 10px; width: 18px; height: 18px; cursor: pointer; }
+.person-result { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+.result-breakdown { font-size: 13px; color: #666; margin-top: 5px; }
+.result-breakdown span { display: block; }
+.shared-breakdown { font-size: 12px; color: #888; text-align: center; margin-top: 10px; }
+.quantity-selector { display: flex; align-items: center; gap: 5px; }
+.quantity-btn { background-color: #ddd; color: #333; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 18px; font-weight: bold; cursor: pointer; line-height: 30px; padding: 0; transition: background-color 0.2s; }
+.quantity-btn:hover { background-color: #ccc; }
+.quantity-input { width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px; -moz-appearance: textfield; appearance: textfield; }
+.quantity-input::-webkit-outer-spin-button, .quantity-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 15px; box-sizing: border-box; }
+.modal-content { background-color: white; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; position: relative; }
+.btn-close-modal { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; color: #aaa; cursor: pointer; line-height: 1; padding: 0; }
+.btn-close-modal:hover { color: #333; }
+.modal-header h3 { text-align: center; font-size: 24px; font-weight: 600; margin-top: 0; margin-bottom: 20px; }
+.modal-body ul { list-style: none; padding-left: 0; }
+.modal-body ul li { font-size: 16px; margin-bottom: 12px; }
+.modal-participant-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.info-display { padding: 15px; background-color: #f9f9f9; border-radius: 8px; margin-bottom: 20px; }
+.info-display p { margin: 5px 0; font-size: 14px; }

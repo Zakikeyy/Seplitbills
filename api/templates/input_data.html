@@ -3,39 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seplit Bills</title>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-16x16.png">
-    <link rel="manifest" href="static/site.webmanifest">
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/refs/heads/main/api/static/favicon.ico">
+    <title>Input Tagihan - Seplit Bills</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <header class="app-header">
-        <img src="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/4f70424c86ddc8aa05cced3fa08e6a74ad3ee422/api/static/Seplit%20Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
         <p class="tagline">Split. Settle. Smile.</p>
     </header>
 
     <main class="container">
         <h1>Detail Tagihan</h1>
         <form action="/proses" method="post">
+            
+            <div class="form-section">
+                <h2>Informasi Tambahan (Opsional)</h2>
+                <input type="text" name="lokasi" class="input-field" placeholder="Lokasi / Tempat Makan">
+            </div>
+
+            <div class="form-section">
+                <h2>Informasi Pembayaran (Opsional)</h2>
+                <select name="metode_pembayaran" id="paymentMethod" class="input-field">
+                    <option value="">Pilih Metode Pembayaran</option>
+                    <option value="Bank">Transfer Bank</option>
+                    <option value="Dompet Digital">Dompet Digital</option>
+                </select>
+
+                <div id="bankDetails" class="payment-details" style="display: none; margin-top: 10px;">
+                    <select name="bank" class="input-field">
+                        <option value="">Pilih Bank</option>
+                        <optgroup label="Bank BUMN">
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BRI">BRI</option>
+                            <option value="BNI">BNI</option>
+                            <option value="BTN">BTN</option>
+                        </optgroup>
+                        <optgroup label="Bank Swasta Nasional">
+                            <option value="BCA">BCA</option>
+                            <option value="CIMB Niaga">CIMB Niaga</option>
+                            <option value="Danamon">Danamon</option>
+                            <option value="PermataBank">PermataBank</option>
+                            <option value="Maybank">Maybank</option>
+                            <option value="Panin Bank">Panin Bank</option>
+                            <option value="OCBC NISP">OCBC NISP</option>
+                            <option value="BTPN">BTPN</option>
+                            <option value="Jenius">Jenius (BTPN)</option>
+                            <option value="Bank Mega">Bank Mega</option>
+                            <option value="Bank Sinarmas">Bank Sinarmas</option>
+                        </optgroup>
+                        <optgroup label="Bank Digital">
+                            <option value="SeaBank">SeaBank</option>
+                            <option value="Bank Jago">Bank Jago</option>
+                            <option value="blu by BCA">blu by BCA</option>
+                            <option value="LINE Bank">LINE Bank</option>
+                            <option value="Allo Bank">Allo Bank</option>
+                        </optgroup>
+                    </select>
+                    <input type="number" name="nomor_rekening" class="input-field" placeholder="Nomor Rekening" style="margin-top: 10px;">
+                </div>
+
+                <div id="ewalletDetails" class="payment-details" style="display: none; margin-top: 10px;">
+                    <select name="dompet_digital" class="input-field">
+                        <option value="">Pilih Dompet Digital</option>
+                        <option value="DANA">DANA</option>
+                        <option value="OVO">OVO</option>
+                        <option value="GoPay">GoPay</option>
+                        <option value="ShopeePay">ShopeePay</option>
+                        <option value="LinkAja">LinkAja</option>
+                    </select>
+                    <input type="number" name="nomor_telepon" class="input-field" placeholder="Nomor Telepon" style="margin-top: 10px;">
+                </div>
+            </div>
+
             <div class="form-section">
                 <h2>Daftar Pesanan</h2>
                 <div id="items-container">
                     <div class="item-row">
-                        <input type="text" name="nama_item" class="input-field item-name" placeholder="Nama Item (cth: Kopi Susu)" required>
-                        <input type="number" name="harga_item" class="input-field item-price" placeholder="Harga (cth: 20000)" required>
+                        <input type="text" name="nama_item" class="input-field item-name" placeholder="Nama Item" required>
+                        <input type="number" name="harga_item" class="input-field item-price" placeholder="Harga Satuan" required>
+                        <div class="quantity-selector">
+                            <button type="button" class="quantity-btn minus-btn">-</button>
+                            <input type="number" name="kuantitas_item" class="quantity-input" value="1" min="1" readonly>
+                            <button type="button" class="quantity-btn plus-btn">+</button>
+                        </div>
                         <button type="button" class="btn-delete item-delete-btn">×</button>
                     </div>
                 </div>
                 <button type="button" id="addItemBtn" class="btn btn-secondary">Tambah Item +</button>
             </div>
+
             <div class="form-section">
                 <h2>Peserta</h2>
                 <div class="participant-input-group">
@@ -45,9 +111,32 @@
                 <div id="participants-list" class="tags-container"></div>
                 <div id="hidden-participants"></div>
             </div>
+
             <button type="submit" class="btn btn-submit">Lanjutkan ke Pembagian</button>
         </form>
     </main>
+
+    <div id="whats-new-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button type="button" class="btn-close-modal">×</button>
+            <div class="modal-header">
+                <h3>Seplit Bills v0.3</h3>
+            </div>
+            <div class="modal-body">
+                <p><strong>Pembaruan Fitur:</strong></p>
+                <ul>
+                    <li>✨ Tambah input kuantitas (+/-) untuk setiap pesanan.</li>
+                    <li>📍 Input lokasi/tempat (opsional).</li>
+                    <li>💳 Opsi pembayaran via Bank & Dompet Digital (opsional).</li>
+                    <li>📄 Output hasil sekarang dalam format PDF agar mudah disalin.</li>
+                    <li>🎨 Tampilan dan rincian di PDF lebih lengkap dan rapi.</li>
+                </ul>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="close-modal-btn" class="btn btn-submit">Oke</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="app-footer">
         <a href="https://www.instagram.com/zaki.key" target="_blank" class="instagram-link">
@@ -57,59 +146,19 @@
         <p>© 2025. All Rights Reserved.</p>
     </footer>
 
+    <script src="/static/input.js"></script>
     <script>
-        const itemsContainer = document.getElementById('items-container');
-        const participantsList = document.getElementById('participants-list');
-        const hiddenParticipantsContainer = document.getElementById('hidden-participants');
-        
-        document.getElementById('addItemBtn').addEventListener('click', () => {
-            const newRow = document.createElement('div');
-            newRow.className = 'item-row';
-            newRow.innerHTML = `<input type="text" name="nama_item" class="input-field item-name" placeholder="Nama Item" required><input type="number" name="harga_item" class="input-field item-price" placeholder="Harga" required><button type="button" class="btn-delete item-delete-btn">×</button>`;
-            itemsContainer.appendChild(newRow);
-        });
+        // --- JAVASCRIPT UNTUK POP-UP "WHAT'S NEW" ---
+        const whatsNewModal = document.getElementById('whats-new-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const closeXBtn = document.querySelector('.btn-close-modal');
 
-        itemsContainer.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('item-delete-btn')) {
-                e.target.parentElement.remove();
-            }
-        });
+        function closeModal() {
+            whatsNewModal.style.display = 'none';
+        }
 
-        const participants = new Set();
-        document.getElementById('addParticipantBtn').addEventListener('click', () => {
-            const participantNameInput = document.getElementById('participantNameInput');
-            const name = participantNameInput.value.trim();
-            
-            if (name && !participants.has(name)) {
-                participants.add(name);
-                
-                const tag = document.createElement('span');
-                tag.className = 'tag';
-                tag.dataset.name = name;
-                tag.innerHTML = `${name} <span class="tag-delete-btn" data-name="${name}">×</span>`;
-                participantsList.appendChild(tag);
-                
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'peserta';
-                hiddenInput.value = name;
-                hiddenParticipantsContainer.appendChild(hiddenInput);
-
-                participantNameInput.value = '';
-            }
-        });
-
-        participantsList.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('tag-delete-btn')) {
-                const nameToRemove = e.target.dataset.name;
-                participants.delete(nameToRemove);
-                const hiddenInputToRemove = hiddenParticipantsContainer.querySelector(`input[value="${nameToRemove}"]`);
-                if (hiddenInputToRemove) {
-                    hiddenInputToRemove.remove();
-                }
-                e.target.parentElement.remove();
-            }
-        });
+        closeModalBtn.addEventListener('click', closeModal);
+        closeXBtn.addEventListener('click', closeModal);
     </script>
 </body>
 </html>

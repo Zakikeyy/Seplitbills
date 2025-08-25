@@ -4,50 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bagi Tagihan - Seplit Bills</title>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/main/api/static/favicon-16x16.png">
-    <link rel="manifest" href="static/site.webmanifest">
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/refs/heads/main/api/static/favicon.ico">
-
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body data-peserta='{{ peserta|tojson|safe }}'>
 
     <header class="app-header">
-        <img src="https://raw.githubusercontent.com/Zakikeyy/Seplitbills/4f70424c86ddc8aa05cced3fa08e6a74ad3ee422/api/static/Seplit%20Bills.png" alt="Logo Seplit Bills" class="app-logo">
+        <img src="/static/Seplit Bills.png" alt="Logo Seplit Bills" class="app-logo">
         <p class="tagline">Split. Settle. Smile.</p>
     </header>
 
     <main class="container">
         <h1>Laman Pembagian</h1>
+
+        <div class="info-display">
+            {% if lokasi %}
+                <p><strong>Lokasi:</strong> {{ lokasi }}</p>
+            {% endif %}
+            {% if info_pembayaran.metode == 'Bank' and info_pembayaran.rekening %}
+                <p><strong>Bayar ke:</strong> {{ info_pembayaran.bank }} - {{ info_pembayaran.rekening }}</p>
+            {% elif info_pembayaran.metode == 'Dompet Digital' and info_pembayaran.telepon %}
+                <p><strong>Bayar ke:</strong> {{ info_pembayaran.dompet }} - {{ info_pembayaran.telepon }}</p>
+            {% endif %}
+        </div>
+
         <div class="form-section">
             <h2>Pilih Penanggung Jawab Setiap Item</h2>
             <div id="assignment-container">
                 {% for item in items %}
-                <div class="assignment-row" data-price="{{ item.harga }}" data-name="{{ item.nama }}">
-                    <span class="item-label">{{ item.nama }} - Rp {{ "{:,.0f}".format(item.harga) }}</span>
-                    <select class="assign-select">
-                        <option value="bersama">Bayar Bersama</option>
-                        {% for p in peserta %}
-                        <option value="{{ p }}">{{ p }}</option>
-                        {% endfor %}
-                    </select>
+                <div class="assignment-row" data-price="{{ item.harga_satuan }}" data-name="{{ item.nama }}" data-quantity="{{ item.kuantitas }}">
+                    <span class="item-label">{{ item.nama }} (x{{ item.kuantitas }}) - Rp {{ "{:,.0f}".format(item.harga_satuan * item.kuantitas) }}</span>
+                    {% if item.kuantitas > 1 %}
+                        <div class="assignment-control split-quantity-btn">Bagi Kuantitas</div>
+                    {% else %}
+                        <select class="assignment-control assign-select">
+                            <option value="bersama">Bayar Bersama</option>
+                            {% for p in peserta %}
+                            <option value="{{ p }}">{{ p }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
         </div>
-
+        
         <div class="form-section tax-option">
-            <label for="tax-checkbox">
-                <input type="checkbox" id="tax-checkbox">
-                Tambahkan PPN (11%)
-            </label>
+            <label for="tax-checkbox"><input type="checkbox" id="tax-checkbox"> Tambahkan PPN (11%)</label>
         </div>
 
         <div class="form-section">
@@ -56,11 +70,22 @@
        
         <div id="result-container" class="form-section" style="display:none;">
             <h2>Hasil Perhitungan</h2>
-            <div id="result-details">
-                </div>
+            <div id="result-details"></div>
             <button type="button" id="shareBtn" class="btn btn-share">Bagikan</button>
         </div>
     </main>
+    
+    <div id="quantity-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h3 id="modal-title">Bagi Kuantitas: Nama Item</h3>
+            <p>Sisa untuk dibagi: <span id="modal-remaining"></span></p>
+            <div id="modal-participants-container"></div>
+            <div class="modal-actions">
+                <button type="button" id="modal-save-btn" class="btn btn-submit">Simpan</button>
+                <button type="button" id="modal-cancel-btn" class="btn btn-secondary">Batal</button>
+            </div>
+        </div>
+    </div>
     
     <footer class="app-footer">
         <a href="https://www.instagram.com/zaki.key" target="_blank" class="instagram-link">
@@ -70,6 +95,6 @@
         <p>© 2025. All Rights Reserved.</p>
     </footer>
 
-    <script src="static/hasil.js"></script>
+    <script src="/static/hasil.js"></script>
 </body>
 </html>
